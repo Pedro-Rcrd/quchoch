@@ -19,12 +19,28 @@ namespace systemquchooch.Controllers
         }
 
         // GET: Comunidads
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar)
         {
-              return _context.Comunidads != null ? 
+             var Comunidads = from comunidad in _context.Comunidads select comunidad;
+            if(!String.IsNullOrEmpty(buscar))
+
+            {
+                Comunidads = Comunidads.Where(s => s.NombreComunidad!.Contains(buscar));
+            }
+
+
+            {
+             return _context.Comunidads != null ? 
                           View(await _context.Comunidads.ToListAsync()) :
                           Problem("Entity set 'QuchoochContext.Comunidads'  is null.");
+      
         }
+
+
+
+        }
+
+        
 
         // GET: Comunidads/Details/5
         public async Task<IActionResult> Details(int? id)
